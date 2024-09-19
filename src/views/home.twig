@@ -1,0 +1,90 @@
+{% extends 'layout.twig' %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h2 class="mb-4">Telefonkönyv</h2>
+        {% if contacts is not empty %}
+            <ul id="contact-lista" class="list-group">
+                {% for contact in contacts %}
+                    <li class="list-group-item d-flex align-items-center">
+                        <div class="icon-container">
+                            <i class="la la-phone"></i>
+                        </div>
+                        <div class="contact-details">
+                            <div class="row">
+                                <div class="col-6">
+                                    <strong>{{ contact.last_name }}</strong>
+                                </div>
+                                <div class="col-6">
+                                    <strong>{{ contact.first_name }}</strong>
+                                </div>
+                            </div>
+                            <div class="row">
+                                {% if contact.phone %}
+                                    <div class="col-6">
+                                        Telefonszám: {{ contact.phone|replace({'+421': '0'}) }}
+                                    </div>
+                                {% endif %}
+                                {% if contact.email %}
+                                    <div class="col-6">
+                                        E-mail: {{ contact.email }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Nincsenek bejegyzések...</p>
+        {% endif %}
+    </div>
+
+    <button id="add-button" class="btn btn-primary">
+        <i class="la la-plus"></i>
+    </button>
+
+    <button id="add-button-desktop" class="btn btn-primary">
+        <i class="la la-plus"></i>
+        Új névjegy hozzáadása
+    </button>
+
+    <div id="add-form" class="modal" tabindex="-1" role="dialog" style="display: none;">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header d-flex justify-content-between">
+                    <h5 class="modal-title">Új névjegy hozzáadása</h5>
+                    <button type="button" class="close ml-auto" id="close-modal" aria-label="Bezárás">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="contact-form">
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="first_name">Keresztnév<span class="text-danger">*</span></label>
+                                <input type="text" name="first_name" id="first_name" class="form-control" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="last_name">Vezetéknév<span class="text-danger">*</span></label>
+                                <input type="text" name="last_name" id="last_name" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Telefonszám</label>
+                            <input type="text" name="phone" id="phone" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">E-mail cím</label>
+                            <input type="email" name="email" id="email" class="form-control">
+                        </div>
+                        <div class="row">
+                            <small class="form-text text-muted">A <span class="text-danger">*</span>-gal jelölt mezők kitöltése kötelező.</small>
+                        </div>
+                        <button type="submit" class="btn btn-success">Hozzáadás</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

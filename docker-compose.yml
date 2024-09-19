@@ -1,0 +1,49 @@
+version: "3.7"
+services:
+  app:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: contacts-app
+    container_name: contacts-app
+    restart: unless-stopped
+    working_dir: /var/www/html
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/var/www/html
+    environment:
+      DB_HOST: db
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_PORT: ${DB_PORT}
+    depends_on:
+      - db
+    networks:
+      - contacts
+
+  db:
+    image: mysql:8.0
+    container_name: contacts-db
+    restart: unless-stopped
+    ports:
+        - "10006:3306"
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PORT: ${DB_PORT}
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - contacts
+
+networks:
+  contacts:
+    driver: bridge
+
+volumes:
+  db_data:
+    driver: local
