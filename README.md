@@ -9,13 +9,15 @@
 ### Előkövetelmények
 - Docker Desktop telepítése a gépedre.
 
-### Projekt futtatása
+### Projekt futtatása lokálisan
 
 - Töltsd le vagy klónozd a projektet a gépedre:
 
 ```
 git clone https://github.com/kulcsarbence/PhoneBook
 ```
+
+Hozz létre egy .env fájlt a projekt gyökérkönyvtárában, és másold bele a .env.example tartalmát.
 
 A projekt gyökérkönyvtárában futtasd a következő parancsot a Docker konténerek felépítéséhez:
 
